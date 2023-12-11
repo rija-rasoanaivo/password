@@ -47,6 +47,8 @@ def mdp(new_mdp):
             print("Cryptage du mot de passe...")
             print(f"Mot de passe crypté: \n{h}")
             print("Mot de passe crypté enregistré dans le fichier password.json")
+        
+            
 
             return True
         
@@ -55,3 +57,8 @@ def mdp(new_mdp):
 mot_de_passe = input("Votre mot de passe doit contenir: \n-au moins huit caractères \n-au moins une majuscule \n-au moins une minuscule \n-au moins un chiffre \n-au moins un caractère spécial(!, @, #, $, %, ^, &, *) \nEntrez un mot de passe : ")
 
 mdp(mot_de_passe)  
+
+def afficher_mdp(): # Fonction qui permet d'afficher le mot de passe crypté
+    with open("password.json", "r") as fichier: # Ouverture du fichier password.json en mode lecture
+        print(fichier.read()) # Affiche le contenu du fichier password.json
+afficher_mdp()
