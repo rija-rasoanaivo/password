@@ -40,7 +40,7 @@ def mdp(new_mdp):
         
         else:
             h = hashlib.sha256(mot_de_passe.encode()).hexdigest()# Cryptage du mot de passe avec la fonction sha256 de la librairie hashlib # Conversion du mot de passe en hexadecimal # Stockage du mot de passe crypté dans la variable h
-            with open("password.json", "a") as fichier: # Ouverture du fichier password.json en mode écriture
+            with open("password.json", "a") as fichier: # Ouverture du fichier password.json en mode ajout # Si le fichier n'existe pas, il sera créé automatiquement 
                 json.dump(h, fichier) # Ecriture du mot de passe crypté dans le fichier password.json
                 fichier.write("\n") # Ecriture d'un retour à la ligne dans le fichier password.json
             print(f"Votre mot de passe '{new_mdp}' est valide")
