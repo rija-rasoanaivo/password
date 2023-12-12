@@ -62,5 +62,16 @@ mot_de_passe = input("Votre mot de passe doit contenir: \n-au moins huit caract�
 mdp(mot_de_passe)  
 
 def afficher_mdp(): # Fonction qui permet d'afficher le mot de passe crypté
-    with open(chemin, "r") as fichier: # Ouverture du fichier password.json en mode lecture
-        print(fichier.read()) # Affiche le contenu du fichier password.json
+        input("Voulez-vous afficher le mot de passe crypté ? (Oui/Non) : ")
+        if input == "Oui" or "oui":
+            with open(chemin, "r") as fichier: # Ouverture du fichier password.json en mode lecture
+                print(fichier.read()) # Affiche le contenu du fichier password.json
+        elif input == "Non" or "non":
+            print("Mot de passe crypté non affiché")
+
+def supprimer_mdp(): # Fonction qui permet de supprimer le mot de passe crypté
+    with open(chemin, "w") as fichier: # Ouverture du fichier password.json en mode écriture
+        fichier.write("") # Ecriture d'un espace vide dans le fichier password.json
+    print("Mot de passe crypté supprimé")
+
+afficher_mdp()
