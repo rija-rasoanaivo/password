@@ -48,12 +48,16 @@ def mdp(new_mdp):
                            
             liste.append(h) # Ajout du mot de passe crypté dans la liste
             with open(chemin, "w") as fichier: # Ouverture du fichier password.json en mode ajout # Si le fichier n'existe pas, il sera créé automatiquement 
-                json.dump(liste, fichier, indent=3) # Ecriture du mot de passe crypté dans le fichier password.json
-                
+                json.dump(liste, fichier, indent=3) # Ecriture du mot de passe crypté dans le fichier password.json 
             print(f"Votre mot de passe '{new_mdp}' est valide")
             print("Cryptage du mot de passe...")
             print(f"Mot de passe crypté: \n{h}")
             print("Mot de passe crypté enregistré dans le fichier password.json")
+            input("Voulez-vous afficher le mot de passe crypté ? (Oui/Non) : ")
+            if input == "Oui":
+                afficher_mdp()
+            else:
+                break
 
             return True
         new_mdp = input("écrire un mot de passe valide : ")
@@ -65,4 +69,3 @@ mdp(mot_de_passe)
 def afficher_mdp(): # Fonction qui permet d'afficher le mot de passe crypté
     with open(chemin, "r") as fichier: # Ouverture du fichier password.json en mode lecture
         print(fichier.read()) # Affiche le contenu du fichier password.json
-afficher_mdp()
