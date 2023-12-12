@@ -8,7 +8,7 @@ import hashlib
 #minuscule = "abcdefghijklmnopqrstuvwxyz"
 #chiffre = "0123456789"
 caractere_special = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+']
-chemin = r'C:\Users\rijar\Desktop\Ecole_Laplateforme\Projet\password\password\password.json'
+chemin = 'password.json'
 
 def caractere_speciaux(mot_de_passe): # Vérifie si le mot de passe contient un caractère spécial
     global caractere_special # Permet d'utiliser la variable caractere_special qui est en dehors de la fonction
