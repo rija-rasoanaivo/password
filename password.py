@@ -53,11 +53,6 @@ def mdp(new_mdp):
             print("Cryptage du mot de passe...")
             print(f"Mot de passe crypté: \n{h}")
             print("Mot de passe crypté enregistré dans le fichier password.json")
-            input("Voulez-vous afficher le mot de passe crypté ? (Oui/Non) : ")
-            if input == "Oui":
-                afficher_mdp()
-            else:
-                break
 
             return True
         new_mdp = input("écrire un mot de passe valide : ")
