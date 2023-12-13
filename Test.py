@@ -14,6 +14,8 @@ def caractere_speciaux(mot_de_passe): # Vérifie si le mot de passe contient un 
             return True # Retourne True si le mot de passe contient un caractère spécial 
     return False # Retourne False si le mot de passe ne contient pas de caractère spécial
 
+
+
 def mdp(new_mdp=None): # Fonction principale  
     global chemin
     global h 
@@ -143,6 +145,22 @@ def verifier_doublons(): # Fonction qui permet de vérifier si le mot de passe n
                 return False
         return True
 
-mot_de_passe = input("Votre mot de passe doit contenir :\n- au moins huit caractères\n- au moins une majuscule\n- au moins une minuscule\n- au moins un chiffre\n- au moins un caractère spécial (!, @, #, $, %, ^, &, *)\nEntrez un mot de passe : ")
+def menu(): # Fonction qui permet d'afficher le menu
+    choix = input("Que voulez-vous faire ?\n1 - Ajouter un mot de passe\n2 - Afficher les mots de passe\n3 - Générer un mot de passe aléatoire\n4 - Quitter\nVotre choix : ")
+    if choix == "1":
+        mdp()
+    elif choix == "2":
+        afficher_mdp()
+    elif choix == "3":
+        mdp_aleatoire()
+    elif choix == "4":
+        print("D'accord, à bientôt!")
+    else:
+        print("Veuillez entrer un choix valide")
+        menu()
 
+
+
+mot_de_passe = "" 
+menu()
 mdp(mot_de_passe) # Appel de la fonction mdp() avec le paramètre mot_de_passe
