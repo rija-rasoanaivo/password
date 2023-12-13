@@ -17,7 +17,7 @@ def caractere_speciaux(mot_de_passe): # Vérifie si le mot de passe contient un 
 
 def mdp(new_mdp=None): # Fonction principale  
     global chemin
-    
+    global h
     while True: #On entre dans la boucle
         if new_mdp is None:
             new_mdp = input("Entrez votre mot de passe : ")
@@ -62,7 +62,8 @@ def mdp(new_mdp=None): # Fonction principale
             print("Mot de passe haché enregistré dans le fichier password.json avec le nom associé")
             afficher_mdp()
             mdp_aleatoire()
-            ajouter_autre_mdp() 
+            ajouter_autre_mdp()
+            verifier_doublons() 
               
             return True
         new_mdp = input("Ecrire un mot de passe valide : ")
@@ -79,6 +80,7 @@ def ajouter_autre_mdp(): # Fonction qui permet d'ajouter un autre mot de passe
     reponse = input("Voulez-vous ajouter un autre mot de passe ? (Oui/Non) : ")
     if reponse == "Oui" or reponse == "oui" or reponse == "OUI" or reponse == "O" or reponse == "o":
         mdp()
+        verifier_doublons()
     else:
         print("D'accord")
 
@@ -114,6 +116,17 @@ def mdp_aleatoire(): # Fonction qui permet de générer un mot de passe aléatoi
     else:
         print("D'accord")
         return reponse
+    
+def verifier_doublons(): # Fonction qui permet de vérifier si le mot de passe n'est pas déjà dans le fichier password.json
+    global chemin
+    global h
+    with open(chemin, "r") as fichier:
+        liste = json.load(fichier)
+        for i in liste:
+            if i["mot_de_passe_hache"] == h:
+                print("Ce mot de passe est déjà dans le fichier password.json")
+                return False
+        return True
 
 mot_de_passe = input("Votre mot de passe doit contenir :\n- au moins huit caractères\n- au moins une majuscule\n- au moins une minuscule\n- au moins un chiffre\n- au moins un caractère spécial (!, @, #, $, %, ^, &, *)\nEntrez un mot de passe : ")
 
