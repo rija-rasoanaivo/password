@@ -4,7 +4,6 @@ import hashlib
 import random
 
 #nombres_caracteres = 8
-
 caractere_special = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+']
 chemin = 'password.json'
 
@@ -17,7 +16,7 @@ def caractere_speciaux(mot_de_passe): # Vérifie si le mot de passe contient un 
 
 def mdp(new_mdp=None): # Fonction principale  
     global chemin
-    global h
+    global h 
     while True: #On entre dans la boucle
         if new_mdp is None:
             new_mdp = input("Entrez votre mot de passe : ")
@@ -36,6 +35,9 @@ def mdp(new_mdp=None): # Fonction principale
         
         elif new_mdp.isalpha():
             print("Votre mot de passe contient que des lettres, il ne respecte pas les conditions")
+
+        elif new_mdp.isalnum():
+            print("Votre mot de passe contient que des lettres et des nombres, Veuillez ajouter au moins un caractère spécial")
         
         elif not caractere_speciaux(new_mdp):
             print("Votre mot de passe doit contenir au moins un caractère spécial parmi !, @, #, $, %, ^, &, * ")
@@ -46,6 +48,7 @@ def mdp(new_mdp=None): # Fonction principale
             h = hashlib.sha256(new_mdp.encode()).hexdigest()  # Calculer le hachage du mot de passe
 
             mot_de_passe_info = {"nom": nom_mot_de_passe, "mot_de_passe_hache": h}  # Stocker le nom et le hachage du mot de passe
+            verifier_doublons() # Vérifier si le mot de passe n'est pas déjà dans le fichier password.json
 
             with open(chemin, "r") as fichier: # Ouverture du fichier password.json en mode lecture
                 try:
@@ -60,11 +63,11 @@ def mdp(new_mdp=None): # Fonction principale
             print("Votre mot de passe est valide")
             print("Cryptage du mot de passe...")
             print("Mot de passe haché enregistré dans le fichier password.json avec le nom associé")
+            
             afficher_mdp()
             mdp_aleatoire()
             ajouter_autre_mdp()
-            verifier_doublons() 
-              
+            
             return True
         new_mdp = input("Ecrire un mot de passe valide : ")
              
@@ -80,11 +83,12 @@ def ajouter_autre_mdp(): # Fonction qui permet d'ajouter un autre mot de passe
     reponse = input("Voulez-vous ajouter un autre mot de passe ? (Oui/Non) : ")
     if reponse == "Oui" or reponse == "oui" or reponse == "OUI" or reponse == "O" or reponse == "o":
         mdp()
-        verifier_doublons()
     else:
-        print("D'accord")
+        print("D'accord, à bientôt!")
 
 def mdp_aleatoire(): # Fonction qui permet de générer un mot de passe aléatoire
+    global chemin
+    global h
     majuscule = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     minuscule = "abcdefghijklmnopqrstuvwxyz"
     chiffre = "0123456789"
@@ -97,24 +101,28 @@ def mdp_aleatoire(): # Fonction qui permet de générer un mot de passe aléatoi
         print("Voici votre mot de passe aléatoire : ", mot_de_passe)
         
         nom_mot_de_passe = input("Entrez un nom pour ce mot de passe : ")
-        
-        h = hashlib.sha256(mot_de_passe.encode()).hexdigest() # Cryptage du mot de passe avec la fonction sha256 de la librairie hashlib # Conversion du mot de passe en hexadecimal # Stockage du mot de passe crypté dans la variable h
-        
-        mot_de_passe_info = {"nom": nom_mot_de_passe, "mot_de_passe_hache": h}
-        
-        with open(chemin, "r") as fichier:
-            try:
-                liste = json.load(fichier)
-            except json.decoder.JSONDecodeError:
-                liste = []
-                        
-        liste.append(mot_de_passe_info) # Ajout du mot de passe crypté dans la liste
-        with open(chemin, "w") as fichier: # Ouverture du fichier password.json en mode ajout # Si le fichier n'existe pas, il sera créé automatiquement
-            json.dump(liste, fichier, indent=3) # Ecriture du mot de passe crypté dans le fichier password.json
+
+        input("Voulez-vous hasher et enregistrer ce mot de passe ? (Oui/Non) :")
+        if reponse == "Oui" or reponse == "oui" or reponse == "OUI" or reponse == "O" or reponse == "o":
+            h = hashlib.sha256(mot_de_passe.encode()).hexdigest() # Cryptage du mot de passe avec la fonction sha256 de la librairie hashlib # Conversion du mot de passe en hexadecimal # Stockage du mot de passe crypté dans la variable h
             
-        return mot_de_passe
+            mot_de_passe_info = {"nom": nom_mot_de_passe, "mot_de_passe_hache": h}
+            verifier_doublons()
+            
+            with open(chemin, "r") as fichier:
+                try:
+                    liste = json.load(fichier)
+                except json.decoder.JSONDecodeError:
+                    liste = []
+                            
+            liste.append(mot_de_passe_info) # Ajout du mot de passe crypté dans la liste
+            with open(chemin, "w") as fichier: # Ouverture du fichier password.json en mode ajout # Si le fichier n'existe pas, il sera créé automatiquement
+                json.dump(liste, fichier, indent=3) # Ecriture du mot de passe crypté dans le fichier password.json
+        else:
+            print("Bien reçu!")    
+            return mot_de_passe
     else:
-        print("D'accord")
+        print("Pas de problème")
         return reponse
     
 def verifier_doublons(): # Fonction qui permet de vérifier si le mot de passe n'est pas déjà dans le fichier password.json
@@ -125,6 +133,7 @@ def verifier_doublons(): # Fonction qui permet de vérifier si le mot de passe n
         for i in liste:
             if i["mot_de_passe_hache"] == h:
                 print("Ce mot de passe est déjà dans le fichier password.json")
+                mdp()
                 return False
         return True
 
